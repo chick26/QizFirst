@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use chrono::{DateTime, Utc};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Kline {
     pub timestamp: DateTime<Utc>,
     pub open: f64,
@@ -11,7 +11,7 @@ pub struct Kline {
     pub volume: f64,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Trade {
     pub timestamp: DateTime<Utc>,
     pub price: f64,
@@ -19,7 +19,7 @@ pub struct Trade {
     pub side: TradeSide,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum TradeSide {
     Buy,
     Sell,

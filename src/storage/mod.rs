@@ -3,6 +3,7 @@ use anyhow::Result;
 use chrono::{DateTime, Utc};
 
 /// 数据存储接口
+#[async_trait::async_trait]
 pub trait DataStorage {
     /// 存储K线数据
     async fn save_klines(&self, symbol: &str, klines: Vec<Kline>) -> Result<()>;
@@ -29,15 +30,15 @@ pub trait DataStorage {
 
 /// 内存数据存储实现
 pub struct MemoryStorage {
-    klines: std::collections::HashMap<String, Vec<Kline>>,
-    trades: std::collections::HashMap<String, Vec<Trade>>,
+    klines: std::sync::RwLock<std::collections::HashMap<String, Vec<Kline>>>,
+    trades: std::sync::RwLock<std::collections::HashMap<String, Vec<Trade>>>,
 }
 
 impl MemoryStorage {
     pub fn new() -> Self {
         Self {
-            klines: std::collections::HashMap::new(),
-            trades: std::collections::HashMap::new(),
+            klines: std::sync::RwLock::new(std::collections::HashMap::new()),
+            trades: std::sync::RwLock::new(std::collections::HashMap::new()),
         }
     }
 }
